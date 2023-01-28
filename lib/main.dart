@@ -16,29 +16,14 @@ class MyApp extends StatelessWidget {
         ),
         home: Scaffold(
           appBar: AppBar(
+            leading: Container(),
             title: Text('Tasks'),
           ),
           body: ListView(
             children: [
-              Task('Leard Flutter'),
-              Task('Ride a bike'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
-              Task('Meditate'),
+              Task('Leard Flutter','https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large'),
+              Task('Ride a bike','https://tswbike.com/wp-content/uploads/2020/09/108034687_626160478000800_2490880540739582681_n-e1600200953343.jpg'),
+              Task('Read','https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg'),
             ],
           ),
           floatingActionButton: FloatingActionButton(onPressed: () {}),
@@ -48,8 +33,9 @@ class MyApp extends StatelessWidget {
 
 class Task extends StatefulWidget {
   final String name;
+  final String image;
 
-  const Task(this.name, {Key? key}) : super(key: key);
+  const Task(this.name,this.image, {Key? key}) : super(key: key);
 
   @override
   State<Task> createState() => _TaskState();
@@ -57,9 +43,9 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int level = 0;
+
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -78,9 +64,12 @@ class _TaskState extends State<Task> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          color: Colors.black26,
-                          width: 72,
-                          height: 100,
+                            color: Colors.black26,
+                            width: 72,
+                            height: 100,
+                            child: Image.network(
+                                widget.image,
+                            fit: BoxFit.cover,)
                         ),
                         Container(
                           // To constrain the size of the text
@@ -91,13 +80,28 @@ class _TaskState extends State<Task> {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                level++;
-                              });
-                            },
-                            child: Icon(Icons.arrow_drop_up))
+                        Container(
+                          height: 52,
+                          width: 52,
+                          child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  level++;
+                                });
+                              },
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: const [
+                                  Icon(Icons.arrow_drop_up),
+                                  Text(
+                                    'UP',
+                                    style: TextStyle(fontSize: 12),
+                                  )
+                                ],
+                              )),
+                        )
                       ],
                     )),
                 Row(
@@ -108,8 +112,8 @@ class _TaskState extends State<Task> {
                       child: Container(
                         width: 200,
                         child: LinearProgressIndicator(
-                            color: Colors.white,
-                           value: level/10,
+                          color: Colors.white,
+                          value: level / 10,
                         ),
                       ),
                     ),
