@@ -46,13 +46,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Task extends StatelessWidget {
+class Task extends StatefulWidget {
   final String name;
 
   const Task(this.name, {Key? key}) : super(key: key);
 
   @override
+  State<Task> createState() => _TaskState();
+}
+
+class _TaskState extends State<Task> {
+  int level = 0;
+  @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -62,29 +69,61 @@ class Task extends StatelessWidget {
               color: Colors.blue,
               height: 140,
             ),
-            Container(
-                color: Colors.white,
-                height: 100,
-                child: Row(
+            Column(
+              children: [
+                Container(
+                    color: Colors.white,
+                    height: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          color: Colors.black26,
+                          width: 72,
+                          height: 100,
+                        ),
+                        Container(
+                          // To constrain the size of the text
+                          width: 200,
+                          child: Text(
+                            widget.name,
+                            style: TextStyle(fontSize: 24),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                level++;
+                              });
+                            },
+                            child: Icon(Icons.arrow_drop_up))
+                      ],
+                    )),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      color: Colors.black26,
-                      width: 72,
-                      height: 100,
-                    ),
-                    Container( // To constrain the size of the text
-                      width: 200,
-                      child: Text(
-                        name,
-                        style: TextStyle(fontSize: 24),
-                        overflow: TextOverflow.ellipsis,
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Container(
+                        width: 200,
+                        child: LinearProgressIndicator(
+                            color: Colors.white,
+                           value: level/10,
+                        ),
                       ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {}, child: Icon(Icons.arrow_drop_up))
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Text(
+                        'Level: $level',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
                   ],
-                ))
+                ),
+              ],
+            )
           ],
         ),
       ),
