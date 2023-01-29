@@ -36,6 +36,7 @@ class _InitialScreenState extends State<InitialScreen> {
                 'Read',
                 'https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg',
                 3),
+            SizedBox(height: 80)
           ],
         ),
       ),
