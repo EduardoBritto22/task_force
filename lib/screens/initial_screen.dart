@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:task_force/task.dart';
+import 'package:task_force/components/task.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({Key? key}) : super(key: key);
@@ -17,13 +17,13 @@ class _InitialScreenState extends State<InitialScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: Container(),
-        title: Text('Tasks'),
+        title: const Text('Tasks'),
       ),
       body: AnimatedOpacity(
         opacity: opacity ? 1 : 0,
-        duration: Duration(milliseconds: 800),
+        duration: const Duration(milliseconds: 800),
         child: ListView(
-          children: [
+          children: const [
             Task(
                 'Learn Flutter',
                 'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
@@ -45,7 +45,7 @@ class _InitialScreenState extends State<InitialScreen> {
             opacity = !opacity;
           });
         },
-        child: Icon(Icons.remove_red_eye),
+        child: const Icon(Icons.remove_red_eye),
       ),
     );
   }
