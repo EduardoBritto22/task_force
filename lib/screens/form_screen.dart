@@ -26,7 +26,7 @@ class _FormScreenState extends State<FormScreen> {
           child: SingleChildScrollView(
             padding: EdgeInsets.all(10),
             child: Container(
-              constraints: BoxConstraints(minHeight: 650, maxHeight: double.infinity),
+              constraints: const BoxConstraints(minHeight: 650, maxHeight: double.infinity),
               decoration: BoxDecoration(
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(10),
@@ -118,6 +118,7 @@ class _FormScreenState extends State<FormScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text('Saving new Task')));
                         }
+                        Navigator.pop(context);
                       },
                       child: Text('Add !'))
                 ],
