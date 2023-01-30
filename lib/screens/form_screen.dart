@@ -17,6 +17,21 @@ class _FormScreenState extends State<FormScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool valueValidator(String? value){
+    if (value != null && value.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+  bool difficultyValidator(String? value){
+    if ((value != null && (value.isEmpty ||
+        int.parse(value) > 5 ||
+        int.parse(value) < 1))) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -27,7 +42,7 @@ class _FormScreenState extends State<FormScreen> {
         ),
         body: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Container(
               constraints: const BoxConstraints(minHeight: 650, maxHeight: double.infinity),
               decoration: BoxDecoration(
@@ -43,13 +58,13 @@ class _FormScreenState extends State<FormScreen> {
                     child: TextFormField(
                       textAlign: TextAlign.center,
                       validator: (String? value) {
-                        if (value != null && value.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Enter with the task name';
                         }
                         return null;
                       },
                       controller: nameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Name',
                           fillColor: Colors.white70,
@@ -63,14 +78,12 @@ class _FormScreenState extends State<FormScreen> {
                       controller: difficultyController,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value!.isEmpty ||
-                            int.parse(value) > 5 ||
-                            int.parse(value) < 1) {
+                        if (difficultyValidator(value)) {
                           return 'The difficulty must be between 1 and 5';
                         }
                         return null;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Difficulty',
                           fillColor: Colors.white70,
@@ -86,13 +99,13 @@ class _FormScreenState extends State<FormScreen> {
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.url,
                       validator: (value) {
-                        if (value!.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Enter the image URL!';
                         }
                         return null;
                       },
                       controller: imageController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           hintText: 'Image',
                           fillColor: Colors.white70,
@@ -129,7 +142,7 @@ class _FormScreenState extends State<FormScreen> {
                           Navigator.pop(context);
                         }
                       },
-                      child: Text('Add !'))
+                      child: const Text('Add !'))
                 ],
               ),
             ),
