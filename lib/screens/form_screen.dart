@@ -24,9 +24,9 @@ class _FormScreenState extends State<FormScreen> {
         ),
         body: Center(
           child: SingleChildScrollView(
+            padding: EdgeInsets.all(10),
             child: Container(
-              height: 650,
-              width: 355,
+              constraints: BoxConstraints(minHeight: 650, maxHeight: double.infinity),
               decoration: BoxDecoration(
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(10),
