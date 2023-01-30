@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:task_force/components/task.dart';
+import 'package:task_force/data/task_inherited.dart';
+import 'package:task_force/screens/form_screen.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({Key? key}) : super(key: key);
@@ -19,34 +19,16 @@ class _InitialScreenState extends State<InitialScreen> {
         leading: Container(),
         title: const Text('Tasks'),
       ),
-      body: AnimatedOpacity(
-        opacity: opacity ? 1 : 0,
-        duration: const Duration(milliseconds: 800),
-        child: ListView(
-          children: const [
-            Task(
-                'Learn Flutter',
-                'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
-                3),
-            Task(
-                'Ride a bike',
-                'https://tswbike.com/wp-content/uploads/2020/09/108034687_626160478000800_2490880540739582681_n-e1600200953343.jpg',
-                4),
-            Task(
-                'Read',
-                'https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg',
-                3),
-            SizedBox(height: 80)
-          ],
-        ),
+      body: ListView(
+        children: TaskInherited.of(context).taskList,
+        padding: EdgeInsets.only(top: 8, bottom: 70),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            opacity = !opacity;
-          });
+          Navigator.push(
+              context, MaterialPageRoute(builder: (contextNew) => FormScreen(taskContext: context,)));
         },
-        child: const Icon(Icons.remove_red_eye),
+        child: const Icon(Icons.add),
       ),
     );
   }
