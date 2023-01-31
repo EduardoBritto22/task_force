@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_force/data/task_dao.dart';
 
 import 'difficulty.dart';
 
@@ -82,6 +83,9 @@ class _TaskState extends State<Task> {
                               setState(() {
                                 widget.level++;
                               });
+                            },
+                            onLongPress: (){
+                              TaskDao().delete(widget.name);
                             },
                             child: Column(
                               mainAxisAlignment:

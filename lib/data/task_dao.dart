@@ -56,7 +56,7 @@ class TaskDao {
   }
 
   List<Task> toList(List<Map<String, dynamic>> taskMap) {
-    final List<Task> tasks = List.empty();
+    final List<Task> tasks = [];
     for (var row in taskMap) {
       final Task task = Task(row[_name], row[_image], row[_difficulty]);
       tasks.add(task);

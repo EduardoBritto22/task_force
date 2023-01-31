@@ -19,6 +19,9 @@ class _InitialScreenState extends State<InitialScreen> {
       appBar: AppBar(
         leading: Container(),
         title: const Text('Tasks'),
+        actions: [
+          IconButton(onPressed: (){setState(() {});}, icon: Icon(Icons.refresh))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 70),
