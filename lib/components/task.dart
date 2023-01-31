@@ -7,10 +7,11 @@ class Task extends StatefulWidget {
   final String name;
   final String image;
   final int difficulty;
-
-  Task(this.name, this.image, this.difficulty, {Key? key}) : super(key: key);
-
   int level = 0;
+
+  Task(this.name, this.image, this.difficulty, {Key? key, this.level = 0}) : super(key: key);
+
+
 
   @override
   State<Task> createState() => _TaskState();
@@ -81,6 +82,7 @@ class _TaskState extends State<Task> {
                             onPressed: () {
                               setState(() {
                                 widget.level++;
+                                TaskDao().saveOrUpdate(widget);
                               });
                             },
                             onLongPress: () {

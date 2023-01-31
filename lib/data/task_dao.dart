@@ -8,11 +8,13 @@ class TaskDao {
   static const String _name = 'name';
   static const String _difficulty = 'difficulty';
   static const String _image = 'image';
+  static const String _level = 'level';
 
   static const String tableSql = 'CREATE TABLE $_tablename('
       '$_name TEXT, '
       '$_difficulty INTEGER, '
-      '$_image TEXT)';
+      '$_image TEXT, '
+      '$_level INTEGER)';
 
   saveOrUpdate(Task task) async {
     final Database db = await getDatabase();
@@ -51,6 +53,7 @@ class TaskDao {
     tasksMap[_name] = task.name;
     tasksMap[_difficulty] = task.difficulty;
     tasksMap[_image] = task.image;
+    tasksMap[_level] = task.level;
 
     return tasksMap;
   }
@@ -58,7 +61,7 @@ class TaskDao {
   List<Task> toList(List<Map<String, dynamic>> taskMap) {
     final List<Task> tasks = [];
     for (var row in taskMap) {
-      final Task task = Task(row[_name], row[_image], row[_difficulty]);
+      final Task task = Task(row[_name], row[_image], row[_difficulty], level: row[_level]);
       tasks.add(task);
     }
 
