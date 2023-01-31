@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_force/data/task_dao.dart';
 
 import 'difficulty.dart';
 
@@ -6,22 +7,23 @@ class Task extends StatefulWidget {
   final String name;
   final String image;
   final int difficulty;
-
-  Task(this.name, this.image, this.difficulty, {Key? key})
-      : super(key: key);
-
   int level = 0;
+
+  Task(this.name, this.image, this.difficulty, {Key? key, this.level = 0}) : super(key: key);
+
+
+
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Stack(
+
         children: [
           Container(
             decoration: BoxDecoration(
@@ -51,9 +53,8 @@ class _TaskState extends State<Task> {
                             child: Image.network(
                               widget.image,
                               fit: BoxFit.cover,
-                              errorBuilder:
-                                  (BuildContext context, Object exception,
-                                  StackTrace? stackTrace) {
+                              errorBuilder: (BuildContext context,
+                                  Object exception, StackTrace? stackTrace) {
                                 return Image.asset('assets/images/nophoto.png');
                               },
                             ),
@@ -81,11 +82,36 @@ class _TaskState extends State<Task> {
                             onPressed: () {
                               setState(() {
                                 widget.level++;
+                                TaskDao().saveOrUpdate(widget);
                               });
                             },
+                            onLongPress: () {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text('Delete Task'),
+                                  content: const Text(
+                                      'Do you want to delete this task?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'Cancel'),
+                                      child: const Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(context, 'OK'),
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                ),
+                              ).then((value) => {
+                                    if (value != null && value == 'OK')
+                                      {TaskDao().delete(widget.name)}
+                                  });
+                            },
                             child: Column(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: const [
                                 Icon(Icons.arrow_drop_up),
@@ -129,4 +155,3 @@ class _TaskState extends State<Task> {
     );
   }
 }
-
