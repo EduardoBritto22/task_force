@@ -14,7 +14,17 @@ class TaskDao {
       '$_difficulty INTEGER, '
       '$_image TEXT)';
 
-  save(Task task) async {}
+  saveOrUpdate(Task task) async {
+    final Database db = await getDatabase();
+    var itemExists = await find(task.name);
+
+    if (itemExists.isEmpty) {
+      return await db.insert(_tablename, toMap(task));
+    } else {
+      return await db.update(_tablename, toMap(task),
+          where: '$_name = ?', whereArgs: [task.name]);
+    }
+  }
 
   Future<List<Task>> findAll() async {
     final Database db = await getDatabase();
@@ -24,11 +34,26 @@ class TaskDao {
 
   Future<List<Task>> find(String taskName) async {
     final Database db = await getDatabase();
-    final List<Map<String, dynamic>> result = await db.query(_tablename, where: '$_name = ?',whereArgs: [taskName]);
+    final List<Map<String, dynamic>> result =
+        await db.query(_tablename, where: '$_name = ?', whereArgs: [taskName]);
     return toList(result);
   }
 
-  delete(String taskName) async {}
+  delete(String taskName) async {
+    final Database db = await getDatabase();
+    await db.delete(_tablename, where: '$_name = ?', whereArgs: [taskName]);
+  }
+
+  // Mapper methods -----------------------------------------------------------------
+
+  Map<String, dynamic> toMap(Task task) {
+    final Map<String, dynamic> tasksMap = {};
+    tasksMap[_name] = task.name;
+    tasksMap[_difficulty] = task.difficulty;
+    tasksMap[_image] = task.image;
+
+    return tasksMap;
+  }
 
   List<Task> toList(List<Map<String, dynamic>> taskMap) {
     final List<Task> tasks = List.empty();
