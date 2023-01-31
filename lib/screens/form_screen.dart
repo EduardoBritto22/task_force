@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_force/data/task_inherited.dart';
+import 'package:task_force/components/task.dart';
+import 'package:task_force/data/task_dao.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({Key? key, required this.taskContext}) : super(key: key);
@@ -17,16 +18,16 @@ class _FormScreenState extends State<FormScreen> {
 
   final _formKey = GlobalKey<FormState>();
 
-  bool valueValidator(String? value){
+  bool valueValidator(String? value) {
     if (value != null && value.isEmpty) {
       return true;
     }
     return false;
   }
-  bool difficultyValidator(String? value){
-    if ((value != null && (value.isEmpty ||
-        int.parse(value) > 5 ||
-        int.parse(value) < 1))) {
+
+  bool difficultyValidator(String? value) {
+    if ((value != null &&
+        (value.isEmpty || int.parse(value) > 5 || int.parse(value) < 1))) {
       return true;
     }
     return false;
@@ -44,7 +45,8 @@ class _FormScreenState extends State<FormScreen> {
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(10),
             child: Container(
-              constraints: const BoxConstraints(minHeight: 650, maxHeight: double.infinity),
+              constraints: const BoxConstraints(
+                  minHeight: 650, maxHeight: double.infinity),
               decoration: BoxDecoration(
                   color: Colors.black12,
                   borderRadius: BorderRadius.circular(10),
@@ -131,14 +133,15 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          TaskInherited
-                              .of(widget.taskContext)
-                              .newTask(nameController.text,
+
+                          TaskDao().saveOrUpdate(Task(
+                              nameController.text,
                               imageController.text,
-                              int.parse(difficultyController.text));
+                              int.parse(difficultyController.text)));
 
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Creating new Task')));
+                              const SnackBar(
+                                  content: Text('Creating new Task')));
                           Navigator.pop(context);
                         }
                       },
